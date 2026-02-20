@@ -1,0 +1,96 @@
+# CoTracker Pipeline Configuration
+# Cấu hình cho pipeline.py
+
+# ==== Output Settings ====
+output:
+  base_dir: "pipeline_output"
+  save_frames: false           # Lưu frames từ video (tốn dung lượng)
+  visualize: true              # Tạo video visualization
+
+# ==== CoTracker Settings ====
+cotracker:
+  model_type: "cotracker3_offline"  # hoặc "cotracker3_online"
+  checkpoint: null                   # Đường dẫn checkpoint tùy chỉnh
+  offline_mode: true
+  window_len: 60                    # 60 cho offline, 16 cho online
+  grid_size: 10                     # Kích thước grid (0 = dùng query points)
+
+# ==== Query Points ====
+# Danh sách điểm cần tracking [frame_idx, x, y]
+query_points:
+  - [0, 100, 800]
+  - [0, 80, 750]
+  - [0, 150, 650]
+  - [0, 180, 750]
+  - [0, 100, 700]
+  - [0, 100, 600]
+  - [0, 120, 580]
+  - [0, 140, 670]
+
+# ==== Camera Intrinsic Matrix ====
+# Ma trận nội tại camera (K matrix)
+# Chạy tinhK.py để tính toán cho camera của bạn
+camera:
+  intrinsic_matrix:
+    - [827.8, 0, 647.73]      # [fx, 0, cx]
+    - [0, 829.45, 466.9]      # [0, fy, cy]
+    - [0, 0, 1]               # [0, 0, 1]
+  
+  # Thông tin camera (optional, để tham khảo)
+  name: "iPhone 12 Pro Max - Front Camera"
+  sensor_width_mm: 5.0
+  focal_length_mm: 2.71
+  fov_horizontal_deg: 74
+
+# ==== Depth Estimation Settings ====
+depth:
+  enable: true
+  model_type: "DPT_Large"        # DPT_Large, DPT_Hybrid, MiDaS_small
+  
+  # Điểm chuẩn để scale depth map (pixel coords + khoảng cách thực)
+  # Format: [u (pixel), v (pixel), depth (meters)]
+  reference_points:
+    - [100, 800, 0.62]
+    - [80, 750, 0.63]
+    - [150, 650, 0.65]
+    - [180, 750, 0.64]
+    - [100, 700, 0.65]
+    - [100, 600, 0.63]
+    - [120, 580, 0.66]
+    - [140, 670, 0.63]
+
+# ==== Camera Motion Estimation ====
+camera_motion:
+  enable: true
+  
+  # Tọa độ thực của các điểm cố định trong không gian (mét)
+  # Tương ứng với query_points
+  world_coordinates:
+    - [-0.009, -0.000, -0.001]
+    - [-0.015, -0.008, 0.009]
+    - [-0.000, -0.027, 0.000]
+    - [0.003, -0.008, 0.009]
+    - [-0.011, -0.018, 0.008]
+    - [-0.009, -0.036, -0.002]
+    - [-0.005, -0.040, -0.000]
+    - [-0.002, -0.023, 0.003]
+
+# ==== Visualization Settings ====
+visualization:
+  linewidth: 3
+  mode: "cool"                   # cool, rainbow, etc.
+  tracks_leave_trace: -1         # -1 = toàn bộ quỹ đạo, số dương = số frame
+  fps: 30
+
+# ==== Webcam Settings ====
+webcam:
+  frame_width: 320
+  frame_height: 240
+  step: 8                        # Window step size
+  max_buffer_frames: 32          # Max frames in buffer
+
+# ==== Performance Settings ====
+performance:
+  use_cuda: true
+  batch_size: 1
+  num_workers: 4
