@@ -1,0 +1,57 @@
+# --- Các tệp hệ thống & IDE ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# --- Dữ liệu Dataset (Cực kỳ quan trọng vì dung lượng rất lớn) ---
+# Thường là các file ảnh (.png, .jpg) hoặc tệp point cloud (.pcd, .ply)
+data/
+datasets/
+*.bag
+*.mp4
+*.avi
+# Nếu bạn lưu kết quả tracking ra file
+results/
+output/
+
+# --- Trọng số mô hình (Weights & Models) ---
+# Tránh đẩy các file .pth (PyTorch) hoặc .h5 (TensorFlow) lên Git
+*.pth
+*.pt
+*.onnx
+*.weights
+*.h5
+*.tflite
+*.pb
+
+# --- C++ / Build (Nếu bạn dùng ORB-SLAM3 hoặc mã nguồn C++) ---
+# Thư mục build và các file thực thi biên dịch
+build/
+bin/
+lib/
+devel/
+install/
+*.o
+*.so
+*.a
+*.out
+cmake_install.cmake
+CMakeCache.txt
+CMakeFiles/
+
+# --- Python & Môi trường ảo ---
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+ENV/
+.ipynb_checkpoints/
+
+# --- Nhật ký và Cấu hình cá nhân ---
+*.log
+.env
+config.local.yaml
